@@ -9,7 +9,7 @@ namespace OnlineOrdersWebApp.Repositories.Interfaces
     {
         void CreateItem(T item);
         void UpdateItem(T item);
-        void DeleteItem(T item);
+        void DeleteItem(int id);
         IEnumerable<T> GetAllItems();
         T GetItemById(int id);        
         bool SaveChanges();

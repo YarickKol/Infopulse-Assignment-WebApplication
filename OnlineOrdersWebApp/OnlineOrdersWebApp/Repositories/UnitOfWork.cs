@@ -1,19 +1,28 @@
 ﻿using OnlineOrdersWebApp.Repositories.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OnlineOrdersWebApp.Repositories
 {
     public class UnitOfWork:IUnitOfWork
     {
         private OrdersDbContext _context;
+
+        private IProductRepository productRepository;
+        private IOrderRepository orderRepository;
+        private ICustomerRepository customerRepository;
         private bool isDisposed = false;
 
-        public IProductRepository Products { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public IOrderRepository Orders { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public ICustomerRepository Customers { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public IProductRepository Products { 
+            get => productRepository ?? (productRepository = new ProductRepository(_context)); 
+            set => productRepository = value; 
+        }
+        public IOrderRepository Orders {
+            get => orderRepository ?? (orderRepository = new OrderRepository(_context));
+            set => orderRepository = value; 
+        }
+        public ICustomerRepository Customers { 
+            get => customerRepository ?? (customerRepository = new CustomerRepository(_context)); 
+            set => customerRepository = value; 
+        }
 
         public UnitOfWork()
         {

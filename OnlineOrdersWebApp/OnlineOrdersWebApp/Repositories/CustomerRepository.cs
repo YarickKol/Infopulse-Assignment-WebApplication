@@ -1,4 +1,5 @@
-﻿using OnlineOrdersWebApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OnlineOrdersWebApp.Models;
 using OnlineOrdersWebApp.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,32 +18,41 @@ namespace OnlineOrdersWebApp.Repositories
 
         public void CreateItem(Customer item)
         {
-            throw new NotImplementedException();
+            if (item == null)
+                throw new ArgumentNullException(nameof(item));
+           
+            _context.Entry(item).State = EntityState.Added;
+            SaveChanges();
         }
 
-        public void DeleteItem(Customer item)
+        public void DeleteItem(int id)
         {
-            throw new NotImplementedException();
+            Customer customer = GetItemById(id);
+            if (customer != null)
+            {
+                _context.Remove(customer);
+                SaveChanges();
+            }
         }
 
         public IEnumerable<Customer> GetAllItems()
         {
-            throw new NotImplementedException();
+            return _context.Customers.ToList();
         }
 
         public Customer GetItemById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Customers.SingleOrDefault(c => c.Id == id);
         }
 
         public bool SaveChanges()
         {
-            throw new NotImplementedException();
+            return (_context.SaveChanges() >= 0);
         }
 
         public void UpdateItem(Customer item)
         {
-            throw new NotImplementedException();
+            _context.Entry(item).State = EntityState.Modified;
         }
     }
 }
