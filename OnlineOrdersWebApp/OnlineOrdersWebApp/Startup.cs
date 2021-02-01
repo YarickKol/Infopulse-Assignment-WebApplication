@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnlineOrdersWebApp.Repositories;
+using OnlineOrdersWebApp.Repositories.Interfaces;
 
 namespace OnlineOrdersWebApp
 {
@@ -23,6 +25,9 @@ namespace OnlineOrdersWebApp
             });
             services.AddDbContext<OrdersDbContext>();
             services.AddControllers();
+            services.AddScoped<IProductRepository,ProductRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
